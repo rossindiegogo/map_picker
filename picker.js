@@ -13,24 +13,27 @@ var outputID = 'villageList';
 $(document).ready(function () {
     if ($('#' + outputID).length <= 0) {
         if (game_data.screen == 'map') {
-            var srcHTML = '<div id="coord_picker">' + '<span style="color:blue;text-decoration:underline;">dalesmckay\'s co-ordinate picker v7.1:</span><br/><br/><textarea id="' + outputID + '" cols="40" rows="10" value="" onFocus="this.select();"/>' + '</div>';
-            ele = win.$('body').append(win.$(srcHTML));
+            var srcHTML = '<div id="coord_picker">' + '<span style="color:blue;text-decoration:underline;">dalesmckay\'s co-ordinate picker v7.1:</span><br/><br/><textarea id="' + outputID + '" cols="100" rows="12" value="" onFocus="this.select();"/>' + '</div>';
+            ele = win.$('#map_big').append(win.$(srcHTML));
+			/*ele = win.$('body').append(win.$(srcHTML));*/
             win.TWMap.map._handleClick = function (e) {
                 index++;
                 var pos = this.coordByEvent(e);
                 var x = pos[0];
                 var y = pos[1];
                 var coord = pos.join("|");
-                coordidx = x * 1000 + y,
+                coordidx = x * 1000 + y;
                 village = TWMap.villages[coordidx];
                 var ownername, ownerpoints, tribetag, tribename, tribepoints, ownerally;
                 if (village.owner == 0) {
-                    ownername = "";
+                    ownername = "Abbandonato";
                     ownerpoints = 0;
                 }
                 else {
                     owner = TWMap.players[village.owner];
-
+                    ownername = owner.name;
+                    ownerpoints = owner.points;
+					
                     if (TWMap.allies[TWMap.players[village.owner]] > 0) {
                         tribetag = TWMap.allies[TWMap.players[village.owner].ally].tag;
                         tribename = TWMap.allies[TWMap.players[village.owner].ally].name;
@@ -64,7 +67,7 @@ $(document).ready(function () {
                 .replace("{x\}", x)
                 .replace("{y\}", y)
                 .replace("{kk\}", TWMap.con.continentByXY(x, y))
-                .replace("{image\}", 'http://' + document.URL.split('/')[2] + '/graphic/' + image)
+                .replace("{image\}", 'https://' + document.URL.split('/')[2] + '/graphic/' + image)
                 .replace("{index\}", index)
                 .replace("{NL\}", "\n");
                 
